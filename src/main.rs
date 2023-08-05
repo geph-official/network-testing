@@ -39,6 +39,7 @@ async fn main() -> anyhow::Result<()> {
     match &cli.command {
         Commands::Execute(args) => {
             let monitors = execute::list_active_monitors().await?;
+            println!("hi: {:?}", monitors);
             let monitors: Vec<Monitor> = monitors
                 .into_iter()
                 .filter(|m| m.attributes.port.is_some())
@@ -48,7 +49,7 @@ async fn main() -> anyhow::Result<()> {
                 for monitor in monitors {
                     execute::execute_script(
                         &monitor.attributes.url,
-                        monitor
+                        &monitor
                             .attributes
                             .port
                             .expect("missing monitor port, even after validation?!"),
